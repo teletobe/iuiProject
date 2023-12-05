@@ -20,7 +20,7 @@
 # Rider
 .idea/
 
-dsStore
+# dsStore
 .DS_Store
 
 # User-specific files
