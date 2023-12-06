@@ -31,4 +31,9 @@ public class Enemy : MonoBehaviour
     {
         return currentHealth;
     }
+
+    public void setHealth(int health)
+    {
+        this.currentHealth = health;
+    }
 }

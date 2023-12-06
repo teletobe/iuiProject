@@ -19,6 +19,9 @@ public class PlayerAgent : Agent
     private bool jump = false;
     private bool crouch = false;
 
+    private int previousHealth = 100;
+
+    private float episodeTimer;
 
     void Start()
     {
@@ -35,6 +38,9 @@ public class PlayerAgent : Agent
             this.transform.localPosition = new Vector3(10, 0.2f, 0);
         }
 
+        episodeTimer = 0f;  // Reset the timer at the beginning of each episode
+
+
         // Move the target to a new spot
         enemy.transform.localPosition = new Vector3(-4,
                                            0.2f,
@@ -50,14 +56,15 @@ public class PlayerAgent : Agent
         sensor.AddObservation(enemy.transform.localPosition);
         sensor.AddObservation(this.transform.localPosition);
 
-        sensor.AddObservation(this.playerHealth);
+        
         sensor.AddObservation(enemy.GetComponent<Enemy>().getHealth());
 
-        // Agent velocity
-        //sensor.AddObservation(rBody.velocity);
 
+        // TODO
+        // observation space ändern
+        //sensor.AddObservation(this.playerHealth);
+        // TODO
         // add life of enemy as observaiton
-
         // add health of own one too
     }
 
@@ -67,13 +74,26 @@ public class PlayerAgent : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         // Actions, size = 1 (continuous action space for left and right movement)
-        float moveAction = actionBuffers.ContinuousActions[0];
-        Move(moveAction);
+        float input = actionBuffers.DiscreteActions[0];
+        Debug.Log(input);
+        if (input == 0)
+        {
+            Move(-1);
+        } else if (input == 1)
+        {
+            Move(1);
+            
+        } else if (input == 2)
+        {
+            Combat();
+        }
 
 
+
+        // TODO
         // add jump too
-
-        // action also to hit -> increase action size 
+        // add action also to hit
+        // -> increase action size 
 
 
 
@@ -86,13 +106,44 @@ public class PlayerAgent : Agent
 
         // Reached target
         //Debug.Log(distanceToEnemy);
-        if (distanceToEnemy < 3.5f)
+        /*
+         * if (distanceToEnemy < 3.5f)
         {
             SetReward(1.0f);
             EndEpisode();
         }
+        */
 
+        if (enemy.GetComponent<Enemy>().getHealth() < previousHealth)
+        {
+            SetReward(0.1f);
+            previousHealth = enemy.GetComponent<Enemy>().getHealth();
+        }
+
+        if (enemy.GetComponent<Enemy>().getHealth() <= 0)
+        {
+            SetReward(1.0f);
+            EndEpisode();
+            enemy.GetComponent<Enemy>().setHealth(100);
+            previousHealth = 100;
+        }
+
+
+        episodeTimer += Time.fixedDeltaTime;  // Increment the timer
+
+        if (episodeTimer >= 30f)
+        {
+            EndEpisode();  // End the episode if the timer reaches 30 seconds
+            episodeTimer = 0f;  // Reset the timer
+        }
+
+
+        // TODO
         // Some more Rewards and episode end conditions
+        // Zuerst nur mal enemy killed reward! 
+        // und episode beenden wenn kein health mehr 
+        //
+        //
         // distance reward function -> smaller reward e.g. 0.05?
         //
 
@@ -109,6 +160,8 @@ public class PlayerAgent : Agent
         // Move the player horizontally
         horizontalMove = moveAction * runSpeed;
 
+
+        // TODO jump action method??
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
@@ -116,6 +169,13 @@ public class PlayerAgent : Agent
 
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
         jump = false;
+    }
+
+    private void Combat()
+    {
+
+        this.gameObject.GetComponent<PlayerCombat>().Attack();
+        
     }
 
 
