@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
 
         if(currentHealth <= 0){
             Die();
+            Debug.Log("EnemyAgent killed");
         }
     }
 

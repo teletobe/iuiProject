@@ -106,7 +106,7 @@ public class PlayerAgent : Agent
 
         if (this.GetComponent<PlayerHealth>().getCurrentHealth() < previousHealthPlayer)
         {
-            SetReward(-0.1f);
+           // SetReward(-0.1f);
             previousHealthPlayer = this.GetComponent<PlayerHealth>().getCurrentHealth();
         }
 
