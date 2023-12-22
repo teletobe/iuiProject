@@ -112,7 +112,7 @@ public class PlayerAgent : Agent
 
         if (enemy.GetComponent<Enemy>().getHealth() < previousHealthEnemy)
         {
-            SetReward(0.1f);
+            SetReward(0.25f);
             previousHealthEnemy = enemy.GetComponent<Enemy>().getHealth();
         }
 
