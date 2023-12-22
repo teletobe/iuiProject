@@ -106,13 +106,13 @@ public class PlayerAgent : Agent
 
         if (this.GetComponent<PlayerHealth>().getCurrentHealth() < previousHealthPlayer)
         {
-           // SetReward(-0.1f);
+           // AddReward(-0.1f);
             previousHealthPlayer = this.GetComponent<PlayerHealth>().getCurrentHealth();
         }
 
         if (enemy.GetComponent<Enemy>().getHealth() < previousHealthEnemy)
         {
-            SetReward(0.25f);
+            AddReward(0.1f);
             previousHealthEnemy = enemy.GetComponent<Enemy>().getHealth();
         }
 
@@ -125,6 +125,7 @@ public class PlayerAgent : Agent
         if (this.GetComponent<PlayerHealth>().getCurrentHealth() <= 0)
         {
             endEpisode = true;
+            //SetReward(-1.0f);
         }
 
 
