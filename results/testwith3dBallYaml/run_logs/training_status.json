@@ -2,22 +2,22 @@
     "PlayerAgent": {
         "checkpoints": [
             {
-                "steps": 100007,
-                "file_path": "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-100007.onnx",
-                "reward": -0.16521739506203195,
-                "creation_time": 1703240248.1347787,
+                "steps": 4133,
+                "file_path": "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-4133.onnx",
+                "reward": -0.2850000048056245,
+                "creation_time": 1703250306.7889273,
                 "auxillary_file_paths": [
-                    "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-100007.pt"
+                    "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-4133.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 100007,
+            "steps": 4133,
             "file_path": "results\\testwith3dBallYaml\\PlayerAgent.onnx",
-            "reward": -0.16521739506203195,
-            "creation_time": 1703240248.1347787,
+            "reward": -0.2850000048056245,
+            "creation_time": 1703250306.7889273,
             "auxillary_file_paths": [
-                "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-100007.pt"
+                "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-4133.pt"
             ]
         }
     },

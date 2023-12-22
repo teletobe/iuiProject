@@ -45,6 +45,27 @@ public class Enemy : MonoBehaviour
         {
             PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
             playerHealth.TakeDamage(25);
+            repelPlayer(col.gameObject);
         }
+    }
+    
+    void repelPlayer(GameObject player)
+    {
+        float xPos = 0f;
+        //nach rechts
+        if (player.transform.position.x > this.transform.position.x)
+        {
+           xPos= this.transform.position.x + 2.5f;
+          
+        }
+        else//nach links
+        {
+            xPos = this.transform.position.x - 2.5f;
+        }
+
+        player.transform.position = new Vector3(xPos, player.transform.position.y, player.transform.position.z);
+
+
+
     }
 }
