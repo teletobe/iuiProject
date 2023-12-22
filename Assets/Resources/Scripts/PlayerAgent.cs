@@ -19,7 +19,9 @@ public class PlayerAgent : Agent
     private bool jump = false;
     private bool crouch = false;
 
-    private int previousHealth = 100;
+    private int previousHealthEnemy = 100;
+    private int previousHealthPlayer = 100;
+    
 
     private float episodeTimer;
 
@@ -58,14 +60,8 @@ public class PlayerAgent : Agent
 
         
         sensor.AddObservation(enemy.GetComponent<Enemy>().getHealth());
-
-
-        // TODO
-        // observation space ändern
-        //sensor.AddObservation(this.playerHealth);
-        // TODO
-        // add life of enemy as observaiton
-        // add health of own one too
+        sensor.AddObservation(this.GetComponent<PlayerHealth>().getCurrentHealth());
+  
     }
 
 
@@ -75,7 +71,7 @@ public class PlayerAgent : Agent
     {
         // Actions, size = 1 (continuous action space for left and right movement)
         float input = actionBuffers.DiscreteActions[0];
-        Debug.Log(input);
+     
         if (input == 0)
         {
             Move(-1);
@@ -86,18 +82,10 @@ public class PlayerAgent : Agent
         } else if (input == 2)
         {
             Combat();
+        }else if (input == 3)
+        {
+            Jump();
         }
-
-
-
-        // TODO
-        // add jump too
-        // add action also to hit
-        // -> increase action size 
-
-
-
-
 
 
         // Rewards
@@ -114,18 +102,29 @@ public class PlayerAgent : Agent
         }
         */
 
-        if (enemy.GetComponent<Enemy>().getHealth() < previousHealth)
+        bool endEpisode = false;
+
+        if (this.GetComponent<PlayerHealth>().getCurrentHealth() < previousHealthPlayer)
+        {
+            SetReward(-0.1f);
+            previousHealthPlayer = this.GetComponent<PlayerHealth>().getCurrentHealth();
+        }
+
+        if (enemy.GetComponent<Enemy>().getHealth() < previousHealthEnemy)
         {
             SetReward(0.1f);
-            previousHealth = enemy.GetComponent<Enemy>().getHealth();
+            previousHealthEnemy = enemy.GetComponent<Enemy>().getHealth();
         }
 
         if (enemy.GetComponent<Enemy>().getHealth() <= 0)
         {
             SetReward(1.0f);
-            EndEpisode();
-            enemy.GetComponent<Enemy>().setHealth(100);
-            previousHealth = 100;
+            endEpisode = true;
+        }
+
+        if (this.GetComponent<PlayerHealth>().getCurrentHealth() <= 0)
+        {
+            endEpisode = true;
         }
 
 
@@ -133,8 +132,19 @@ public class PlayerAgent : Agent
 
         if (episodeTimer >= 30f)
         {
-            EndEpisode();  // End the episode if the timer reaches 30 seconds
-            episodeTimer = 0f;  // Reset the timer
+            endEpisode = true;
+        }
+
+
+        if (endEpisode)
+        {
+            EndEpisode();
+            enemy.GetComponent<Enemy>().setHealth(100);
+            previousHealthEnemy = 100;
+            previousHealthPlayer = 100;
+            this.GetComponent<PlayerHealth>().resetCurrentHealth();
+
+            episodeTimer = 0f; // Reset the timer
         }
 
 
@@ -159,16 +169,8 @@ public class PlayerAgent : Agent
     {
         // Move the player horizontally
         horizontalMove = moveAction * runSpeed;
-
-
-        // TODO jump action method??
-        if (Input.GetButtonDown("Jump"))
-        {
-            jump = true;
-        }
-
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
         jump = false;
+        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
     }
 
     private void Combat()
@@ -178,6 +180,15 @@ public class PlayerAgent : Agent
         
     }
 
+    private void Jump() 
+    {
+        //int moveAction = 0;
+        //horizontalMove = moveAction * runSpeed;
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, true);
+      
+        //TODO
+        //Jump mit schwung?
+    }
 
 
     public override void Heuristic(in ActionBuffers actionsOut)

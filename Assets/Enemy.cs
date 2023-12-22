@@ -36,4 +36,15 @@ public class Enemy : MonoBehaviour
     {
         this.currentHealth = health;
     }
+
+
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.name == "PlayerAgent")
+        {
+            PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(25);
+        }
+    }
 }

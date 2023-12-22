@@ -14,6 +14,10 @@ public class EnemyMovement : MonoBehaviour
         float direction = (player.position.x > transform.position.x) ? 1f : -1f;
 
         horizontalMove = direction * runSpeed;
+        if(Mathf.Abs(player.position.x - transform.position.x) < -3)
+        {
+            this.GetComponent<PlayerCombat>().Attack();
+        }
 
     }
 

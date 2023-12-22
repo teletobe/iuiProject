@@ -29,4 +29,14 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player Died!");
     }
+
+    public int getCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public void resetCurrentHealth()
+    {
+        currentHealth = maxHealth;
+    }
 }
