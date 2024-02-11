@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 
     public int maxHealth = 100;
     private int currentHealth;
+    public Color color;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,9 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
+   
+        GetComponent<SpriteRenderer>().color = Color.blue;
+        StartCoroutine(changeColorBack());
     }
 
     void Die()
@@ -38,5 +42,12 @@ public class PlayerHealth : MonoBehaviour
     public void resetCurrentHealth()
     {
         currentHealth = maxHealth;
+    }
+
+    IEnumerator changeColorBack()
+    {
+
+        yield return new WaitForSeconds(1f);
+        GetComponent<SpriteRenderer>().color = color;
     }
 }

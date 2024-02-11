@@ -6,7 +6,8 @@ public class Enemy : MonoBehaviour
 {
 
     public int maxHealth = 100;
-    private int currentHealth; 
+    private int currentHealth;
+    public Color color;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,8 @@ public class Enemy : MonoBehaviour
             Die();
             Debug.Log("EnemyAgent killed");
         }
+        GetComponent<SpriteRenderer>().color = Color.red;
+        StartCoroutine(changeColorBack());
     }
 
     void Die(){
@@ -68,5 +71,12 @@ public class Enemy : MonoBehaviour
 
 
 
+    }
+
+    IEnumerator changeColorBack()
+    {
+
+        yield return new WaitForSeconds(1f);
+        GetComponent<SpriteRenderer>().color = color;
     }
 }

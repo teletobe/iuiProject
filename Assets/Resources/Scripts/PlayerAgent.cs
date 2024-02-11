@@ -125,7 +125,7 @@ public class PlayerAgent : Agent
         if (this.GetComponent<PlayerHealth>().getCurrentHealth() <= 0)
         {
             endEpisode = true;
-            //SetReward(-1.0f);
+            SetReward(-1.0f);
         }
 
 
@@ -133,6 +133,7 @@ public class PlayerAgent : Agent
 
         if (episodeTimer >= 30f)
         {
+            SetReward(-1.0f);
             endEpisode = true;
         }
 

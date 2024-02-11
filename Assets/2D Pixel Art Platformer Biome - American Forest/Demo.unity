@@ -1251,6 +1251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  color: {r: 0.62352943, g: 0.29803923, b: 0.29803923, a: 1}
 --- !u!1 &398647837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,6 +1607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  color: {r: 0.43529412, g: 0.46666667, b: 0.83137256, a: 1}
 --- !u!1 &552059862
 GameObject:
   m_ObjectHideFlags: 0
