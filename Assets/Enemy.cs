@@ -67,9 +67,13 @@ public class Enemy : MonoBehaviour
             xPos = this.transform.position.x - 2.5f;
         }
 
+       /* if(player.transform.position.x < 0.61f)//outside Boundary
+        {
+            xPos = 0.60f;
+            Debug.Log("outsideBoundary");
+        }*/
+   
         player.transform.position = new Vector3(xPos, player.transform.position.y, player.transform.position.z);
-
-
 
     }
 

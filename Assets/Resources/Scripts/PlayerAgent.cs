@@ -103,31 +103,42 @@ public class PlayerAgent : Agent
         */
 
         bool endEpisode = false;
+        int currentEnemyHealth = enemy.GetComponent<Enemy>().getHealth();
+        int currentPlayerHealth = this.GetComponent<PlayerHealth>().getCurrentHealth();
 
-        if (this.GetComponent<PlayerHealth>().getCurrentHealth() < previousHealthPlayer)
+        if (currentPlayerHealth < previousHealthPlayer)
         {
-           // AddReward(-0.1f);
-            previousHealthPlayer = this.GetComponent<PlayerHealth>().getCurrentHealth();
+            //AddReward(-0.05f);
+            previousHealthPlayer = currentPlayerHealth;
         }
 
-        if (enemy.GetComponent<Enemy>().getHealth() < previousHealthEnemy)
+        if (currentEnemyHealth < previousHealthEnemy)
         {
-            AddReward(0.1f);
-            previousHealthEnemy = enemy.GetComponent<Enemy>().getHealth();
+            //float reward = (enemy.GetComponent<Enemy>().maxHealth - currentEnemyHealth)/100;
+            float reward = 0.1f;
+            AddReward(reward);
+            previousHealthEnemy = currentEnemyHealth;
         }
 
-        if (enemy.GetComponent<Enemy>().getHealth() <= 0)
+        if (currentEnemyHealth <= 0)
         {
             SetReward(1.0f);
             endEpisode = true;
         }
 
-        if (this.GetComponent<PlayerHealth>().getCurrentHealth() <= 0)
+        if (currentPlayerHealth <= 0)
         {
             endEpisode = true;
             SetReward(-1.0f);
         }
-
+       
+    
+        if (this.transform.position.x < 0.61f || this.transform.position.x > 40f) //outsideBoundary
+        {
+            endEpisode = true;
+            SetReward(-1.0f);
+            Debug.Log("outsideBoundary");
+        }
 
         episodeTimer += Time.fixedDeltaTime;  // Increment the timer
 
@@ -148,6 +159,7 @@ public class PlayerAgent : Agent
 
             episodeTimer = 0f; // Reset the timer
         }
+
 
 
         // TODO

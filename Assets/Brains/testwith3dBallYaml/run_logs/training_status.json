@@ -1,0 +1,29 @@
+{
+    "PlayerAgent": {
+        "checkpoints": [
+            {
+                "steps": 4133,
+                "file_path": "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-4133.onnx",
+                "reward": -0.2850000048056245,
+                "creation_time": 1703250306.7889273,
+                "auxillary_file_paths": [
+                    "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-4133.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 4133,
+            "file_path": "results\\testwith3dBallYaml\\PlayerAgent.onnx",
+            "reward": -0.2850000048056245,
+            "creation_time": 1703250306.7889273,
+            "auxillary_file_paths": [
+                "results\\testwith3dBallYaml\\PlayerAgent\\PlayerAgent-4133.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0.dev0",
+        "torch_version": "2.1.0+cpu"
+    }
+}
